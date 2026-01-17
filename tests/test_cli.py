@@ -74,8 +74,8 @@ class TestVersionCommand:
 
     def test_version_fallback_when_not_installed(self):
         """Test version falls back to 0.0.0 when package not found."""
-        from unittest.mock import patch
         from importlib.metadata import PackageNotFoundError
+        from unittest.mock import patch
 
         with patch("silicon.cli.get_version", side_effect=PackageNotFoundError):
             result = runner.invoke(app, ["version"])

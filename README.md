@@ -59,7 +59,7 @@ brew install silicon
 ### PyPI (Recommended)
 
 ```bash
-pip install silicon
+uv pip install silicon
 ```
 
 After installation, use either the command directly or as a Python module:
@@ -79,7 +79,7 @@ Clone the repository and install in development mode:
 ```bash
 git clone https://github.com/alkalescent/silicon.git
 cd silicon
-pip install -e .
+make install DEV=1  # Install with dev dependencies
 ```
 
 ### Pre-built Binaries
@@ -158,12 +158,17 @@ silicon -v         # v1.0.0
 
 Run the test suite:
 ```bash
-uv run python -m pytest -v
+make test
 ```
 
 Run with coverage reporting (requires 90% coverage):
 ```bash
-uv run python -m pytest --cov --cov-report=term-missing --cov-fail-under=90
+make cov
+```
+
+Run smoke tests:
+```bash
+make smoke
 ```
 
 ## 🏗️ Architecture
