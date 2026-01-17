@@ -1,19 +1,19 @@
-# interstellar
+# silicon
 
-[![CI](https://github.com/alkalescent/interstellar/actions/workflows/release.yml/badge.svg)](https://github.com/alkalescent/interstellar/actions/workflows/release.yml)
-[![PyPI version](https://badge.fury.io/py/interstellar.svg)](https://pypi.org/project/interstellar/)
+[![CI](https://github.com/alkalescent/silicon/actions/workflows/release.yml/badge.svg)](https://github.com/alkalescent/silicon/actions/workflows/release.yml)
+[![PyPI version](https://badge.fury.io/py/silicon.svg)](https://pypi.org/project/silicon/)
 [![Python 3.13+](https://img.shields.io/badge/python-3.13+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A command-line tool for managing cryptocurrency mnemonics using BIP39 and SLIP39 standards. This tool allows you to split, combine, and convert mnemonic phrases for secure key management.
+A Python CLI hello world template with best practices for packaging, testing, and CI/CD.
 
 ## ✨ Features
 
-- **BIP39 Support**: Generate, validate, and split BIP39 mnemonic phrases
-- **SLIP39 Support**: Create Shamir Secret Sharing (SLIP39) shares from mnemonics
-- **Flexible Splitting**: Deconstruct 24-word mnemonics into multiple 12-word parts
-- **Share Reconstruction**: Reconstruct mnemonics from SLIP39 shares with threshold requirements
-- **Digit Mode**: Convert mnemonics to/from numeric format for easier backup
+- **Modern CLI**: Built with [Typer](https://typer.tiangolo.com/) for a clean command-line interface
+- **Well-Structured**: Source layout with `src/` directory and proper packaging
+- **Comprehensive Testing**: pytest with coverage requirements and parallel execution
+- **CI/CD Ready**: GitHub Actions workflows for testing, versioning, and releases
+- **Multi-Platform**: PyPI, Homebrew, and pre-built binary distribution
 
 ## 💖 Support
 
@@ -53,23 +53,23 @@ Love this tool? Your support means the world! ❤️
 
 ```bash
 brew tap alkalescent/tap
-brew install interstellar
+brew install silicon
 ```
 
 ### PyPI (Recommended)
 
 ```bash
-pip install interstellar
+pip install silicon
 ```
 
 After installation, use either the command directly or as a Python module:
 
 ```bash
 # Direct command
-interstellar --help
+silicon --help
 
 # As Python module
-python -m interstellar --help
+python -m silicon --help
 ```
 
 ### From Source
@@ -77,32 +77,32 @@ python -m interstellar --help
 Clone the repository and install in development mode:
 
 ```bash
-git clone https://github.com/alkalescent/interstellar.git
-cd interstellar
+git clone https://github.com/alkalescent/silicon.git
+cd silicon
 pip install -e .
 ```
 
 ### Pre-built Binaries
 
-Download from [GitHub Releases](https://github.com/alkalescent/interstellar/releases):
+Download from [GitHub Releases](https://github.com/alkalescent/silicon/releases):
 
 | Variant | Description | Startup | Format |
 |---------|-------------|---------|--------|
-| **Portable** | Single file, no installation needed | ~10 sec | `interstellar-{os}-portable` |
-| **Fast** | Optimized for speed | ~1 sec | `interstellar-{os}-fast.tar.gz` |
+| **Portable** | Single file, no installation needed | ~10 sec | `silicon-{os}-portable` |
+| **Fast** | Optimized for speed | ~1 sec | `silicon-{os}-fast.tar.gz` |
 
 > **Note**: In the filenames and commands, replace `{os}` with your operating system (e.g., `linux`, `macos`). The examples below use `linux`. For Windows, you may need to use a tool like 7-Zip to extract `.tar.gz` archives.
 
 For **Portable**, download and run directly:
 ```bash
-chmod +x interstellar-linux-portable
-./interstellar-linux-portable --help
+chmod +x silicon-linux-portable
+./silicon-linux-portable --help
 ```
 
 For **Fast**, extract the archive and run from within:
 ```bash
-tar -xzf interstellar-linux-fast.tar.gz
-./cli.dist/interstellar --help
+tar -xzf silicon-linux-fast.tar.gz
+./cli.dist/silicon --help
 ```
 
 ### Build from Source
@@ -110,8 +110,8 @@ tar -xzf interstellar-linux-fast.tar.gz
 Build your own binaries using [Nuitka](https://nuitka.net/):
 
 ```bash
-git clone https://github.com/alkalescent/interstellar.git
-cd interstellar
+git clone https://github.com/alkalescent/silicon.git
+cd silicon
 
 # Build portable (single file, slower startup)
 MODE=onefile ./scripts/build.sh
@@ -122,150 +122,36 @@ MODE=standalone ./scripts/build.sh
 
 ## 🚀 Usage
 
-The CLI provides two main commands: `deconstruct` and `reconstruct`.
+The CLI provides simple `hello` and `goodbye` commands.
 
-### Deconstruct Command
+### Hello Command
 
-Split a BIP39 mnemonic into multiple parts or SLIP39 shares.
-
-**From command line:**
-```bash
-interstellar deconstruct --mnemonic "your 24 word mnemonic phrase here..."
-```
-
-**From file:**
-```bash
-interstellar deconstruct --filename seed.txt
-```
-
-**Options:**
-- `--mnemonic`: BIP39 mnemonic to deconstruct (default: empty, reads from file)
-- `--filename`: File containing the BIP39 mnemonic (default: empty)
-- `--standard`: Output format: `BIP39` or `SLIP39` (default: `SLIP39`)
-- `--required`: Required shares for SLIP39 reconstruction (default: `2`)
-- `--total`: Total SLIP39 shares to generate (default: `3`)
-- `--digits`: Output numeric format instead of words (default: `false`)
-
-**Output Format (JSON):**
-
-For BIP39:
-```json
-[
-  {"standard": "BIP39", "mnemonic": "first part words..."},
-  {"standard": "BIP39", "mnemonic": "second part words..."}
-]
-```
-
-For SLIP39:
-```json
-{
-  "standard": "SLIP39",
-  "shares": [
-    ["share1 group1", "share2 group1", "share3 group1"],
-    ["share1 group2", "share2 group2", "share3 group2"]
-  ]
-}
-```
-
-**Example: Create SLIP39 shares**
-```bash
-interstellar deconstruct \
-  --mnemonic "word1 word2 ... word24" \
-  --standard SLIP39 \
-  --required 2 \
-  --total 3
-```
-
-**Example: Split into BIP39 parts**
-```bash
-interstellar deconstruct \
-  --mnemonic "word1 word2 ... word24" \
-  --standard BIP39
-```
-
-### Reconstruct Command
-
-Reconstruct a BIP39 mnemonic from shares or parts.
-
-**From command line (semicolon and comma delimited):**
-```bash
-interstellar reconstruct --shares "group1_share1,group1_share2;group2_share1,group2_share2"
-```
-
-**From file:**
-```bash
-interstellar reconstruct --filename shares.txt
-```
-
-**Options:**
-- `--shares`: Shares to reconstruct, formatted as semicolon-separated groups with comma-separated shares (default: empty, reads from file)
-- `--filename`: File containing shares (default: empty)
-- `--standard`: Input format: `BIP39` or `SLIP39` (default: `SLIP39`)
-- `--digits`: Input is in numeric format (default: `false`)
-
-**Output Format (JSON):**
-```json
-{
-  "standard": "BIP39",
-  "mnemonic": "reconstructed 24 word mnemonic phrase..."
-}
-```
-
-**Example: Reconstruct from SLIP39 shares (CLI)**
-```bash
-interstellar reconstruct \
-  --shares "group1_share1,group1_share2;group2_share1,group2_share2" \
-  --standard SLIP39
-```
-
-**Example: Reconstruct from file**
-```bash
-interstellar reconstruct --filename shares.txt --standard SLIP39
-```
-
-## 📁 Files
-
-### Input Files
-
-**For deconstruct command:**
-The file should contain the mnemonic phrase:
-```
-word1 word2 word3 ... word24
-```
-
-**For reconstruct command:**
-Shares should be grouped by line, with comma-separated shares within each group:
-```
-group1_share1,group1_share2
-group2_share1,group2_share2
-```
-
-For example, with a 2-of-3 SLIP39 scheme split into 2 BIP39 parts:
-```
-academic acid ... (20 words),academic always ... (20 words)
-academic arcade ... (20 words),academic axes ... (20 words)
-```
-
-### Command-Line Format
-
-When using `--shares` on the command line:
-- Use commas (`,`) to separate shares within a group
-- Use semicolons (`;`) to separate groups
-- Example: `"group1_share1,group1_share2;group2_share1,group2_share2"`
-
-### JSON Output
-
-All commands output JSON for easy parsing and piping:
+Say hello to someone:
 
 ```bash
-# Extract just the shares
-interstellar deconstruct --filename seed.txt | jq -r '.shares'
+silicon hello                    # Hello, World!
+silicon hello --name Developer   # Hello, Developer!
+silicon hello -n "Your Name"     # Hello, Your Name!
+```
 
-# Extract the reconstructed mnemonic
-interstellar reconstruct --filename shares.txt | jq -r '.mnemonic'
+### Goodbye Command
 
-# Save output to file
-interstellar deconstruct --mnemonic "word1 ..." > output.json
+Say goodbye to someone:
+
+```bash
+silicon goodbye                  # Goodbye, World!
+silicon goodbye --name Developer # Goodbye, Developer!
+silicon goodbye -n "Your Name"   # Goodbye, Your Name!
+```
+
+### Version
+
+Check the installed version:
+
+```bash
+silicon version    # v1.0.0
+silicon --version  # v1.0.0
+silicon -v         # v1.0.0
 ```
 
 ## 🧪 Testing
@@ -280,70 +166,33 @@ Run with coverage reporting (requires 90% coverage):
 uv run python -m pytest --cov --cov-report=term-missing --cov-fail-under=90
 ```
 
-## 🔐 Security
-
-⚠️ **Important Security Considerations:**
-
-- **Run on an airgapped machine or a fresh [Tails](https://tails.net) installation via USB with networking disabled**
-- Never share your seed phrase or private keys
-- Store mnemonic backups securely in multiple physical locations
-- SLIP39 shares should be distributed to different secure locations
-- Use the digit format for metal plate backups or other durable storage
-- Always verify reconstructed mnemonics match the original
-- This tool is for educational and personal use only
-
 ## 🏗️ Architecture
 
 The CLI consists of the following modules:
 
-- **`tools.py`**: Core BIP39 and SLIP39 implementation
-  - `BIP39` class: Mnemonic generation, validation, splitting
-  - `SLIP39` class: Shamir Secret Sharing implementation
+- **`tools.py`**: Core utility classes
+  - `Greeter` class: Simple greeting functionality
   
 - **`cli.py`**: Command-line interface using Typer
-  - `deconstruct`: Split mnemonics into parts/shares
-  - `reconstruct`: Rebuild mnemonics from parts/shares
+  - `hello`: Say hello to someone
+  - `goodbye`: Say goodbye to someone
+  - `version`: Display version
 
 - **`test_tools.py`** / **`test_cli.py`**: Comprehensive test suites
-  - BIP39 generation and roundtrip tests
-  - SLIP39 share creation and reconstruction
-  - CLI integration tests
 
-## 📖 Examples
+## 📖 Using as a Template
 
-### Secure Backup Strategy
-
-1. Generate a 24-word BIP39 mnemonic
-2. Split it into 2 parts (two 12-word mnemonics)
-3. Convert each part to SLIP39 shares (2-of-3)
-4. Distribute 6 total shares across secure locations
-5. To recover, need 2 shares from each group (4 shares total)
-
-```bash
-# Deconstruct (outputs JSON)
-interstellar deconstruct \
-  --mnemonic "abandon abandon ... art" \
-  --standard SLIP39 \
-  --required 2 \
-  --total 3 > shares.json
-
-# Extract shares with jq
-cat shares.json | jq -r '.shares'
-
-# Reconstruct from file
-interstellar reconstruct --filename backup_shares.txt --standard SLIP39
-
-# Or from command line
-interstellar reconstruct \
-  --shares "share1,share2;share3,share4" \
-  --standard SLIP39
-```
+1. Fork or clone this repository
+2. Replace `silicon` with your project name in:
+   - `pyproject.toml` (name, scripts, URLs)
+   - `src/silicon/` directory name
+   - Imports in source files
+   - README.md
+3. Add your own functionality in `tools.py` and `cli.py`
+4. Update tests accordingly
 
 ## 📚 Dependencies
 
-- `hdwallet`: HD wallet generation and derivation (subdependency of slip39)
-- `mnemonic`: BIP39 mnemonic implementation
-- `slip39`: SLIP39 Shamir Secret Sharing
 - `typer`: Modern CLI framework
 
 ## 📄 License

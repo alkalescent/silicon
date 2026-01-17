@@ -3,40 +3,38 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "interstellar"
+name = "silicon"
 version = "0.0.0"  # Injected from git tag at build time
-description = "A command-line tool for managing cryptocurrency mnemonics using BIP39 and SLIP39 standards"
+description = "A Python CLI hello world template"
 readme = "README.md"
 requires-python = ">=3.13"
 license = "MIT"
 authors = [
     { name = "Krish Suchak" }
 ]
-keywords = ["cryptocurrency", "mnemonic", "bip39", "slip39", "shamir", "hdwallet"]
+keywords = ["cli", "template", "hello-world", "python"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
-    "Topic :: Security :: Cryptography",
+    "Topic :: Software Development :: Libraries :: Python Modules",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
-    "mnemonic>=0.21",
-    "slip39>=14.0.2",
     "typer>=0.20.1",
 ]
 
 [project.urls]
-Homepage = "https://github.com/alkalescent/interstellar"
-Repository = "https://github.com/alkalescent/interstellar"
-Issues = "https://github.com/alkalescent/interstellar/issues"
+Homepage = "https://github.com/alkalescent/silicon"
+Repository = "https://github.com/alkalescent/silicon"
+Issues = "https://github.com/alkalescent/silicon/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/interstellar"]
+packages = ["src/silicon"]
 
 [project.scripts]
 # Entry point command uses package name from [project].name
-interstellar = "interstellar.cli:app"
+silicon = "silicon.cli:app"
 
 [dependency-groups]
 dev = ["pytest", "pytest-xdist", "pytest-cov", "nuitka", "ordered-set", "ruff", "packaging"]
@@ -52,6 +50,10 @@ omit = ["tests/*", ".venv/*", "build/*", "scripts/*", "*/__main__.py"]
 [tool.coverage.report]
 fail_under = 90
 show_missing = true
+exclude_lines = [
+    "except PackageNotFoundError:",
+    'if __name__ == "__main__":',
+]
 
 [tool.ruff]
 target-version = "py313"

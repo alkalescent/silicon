@@ -34,7 +34,7 @@ class {{CLASS_NAME}} < Formula
 
     # Test help command shows expected subcommands
     help_output = shell_output("#{bin}/{{NAME}} --help")
-    assert_match "deconstruct", help_output
-    assert_match "reconstruct", help_output
+    assert_match "hello", help_output
+    assert_match "goodbye", help_output
   end
 end

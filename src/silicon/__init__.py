@@ -13,6 +13,6 @@ except PackageNotFoundError:
     __version__ = "0.0.0"
 
 # Re-export public API
-from interstellar.tools import BIP39, SLIP39  # noqa: E402
+from silicon.tools import Greeter  # noqa: E402
 
-__all__ = ["BIP39", "SLIP39", "__version__", "PACKAGE_NAME"]
+__all__ = ["Greeter", "__version__", "PACKAGE_NAME"]
