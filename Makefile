@@ -38,7 +38,7 @@ test:
 	uv run python -m pytest
 
 smoke:
-	uv run python tests/smoke.py $(or $(NAME),$(shell basename $(CURDIR)))
+	uv run python tests/smoke.py $(NAME)
 
 cov:
 	uv run python -m pytest --cov --cov-report=term-missing --cov-fail-under=90
