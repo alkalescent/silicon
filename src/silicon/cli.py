@@ -62,6 +62,7 @@ def version() -> None:
         typer.echo(f"{prefix}{get_version(PACKAGE_NAME)}")
     except PackageNotFoundError:
         typer.echo(f"{prefix}0.0.0")
+    # This may be necessary for the version option to work correctly in the main fx
     raise typer.Exit(code=0)
 
 
