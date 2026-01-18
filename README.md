@@ -114,10 +114,10 @@ git clone https://github.com/alkalescent/silicon.git
 cd silicon
 
 # Build portable (single file, slower startup)
-MODE=onefile ./scripts/build.sh
+MODE=onefile make build
 
 # Build fast (directory, faster startup)
-MODE=standalone ./scripts/build.sh
+MODE=standalone make build
 ```
 
 ## 🚀 Usage
