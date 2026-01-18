@@ -68,8 +68,8 @@ After installation, use either the command directly or as a Python module:
 # Direct command
 silicon --help
 
-# As Python module
-python -m silicon --help
+# As Python module (if direct command not in PATH)
+uv run python -m silicon --help
 ```
 
 ### From Source
