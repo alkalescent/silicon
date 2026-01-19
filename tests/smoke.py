@@ -7,10 +7,10 @@ Prerequisites:
 
 Usage:
     # Test installed package CLI
-    python tests/smoke.py interstellar
+    python tests/smoke.py silicon
 
     # Test a specific binary
-    python tests/smoke.py ./interstellar-macos-portable
+    python tests/smoke.py ./silicon-macos-portable
 
 Alternative approach:
     If you want to test binaries WITHOUT requiring the package to be installed,
@@ -65,9 +65,25 @@ def test_help(cmd: list[str]) -> None:
     """Test help command works."""
     result = run([*cmd, "--help"])
     out = result.stdout
-    assert "deconstruct" in out, "missing deconstruct command"
-    assert "reconstruct" in out, "missing reconstruct command"
+    assert "hello" in out, "missing hello command"
+    assert "goodbye" in out, "missing goodbye command"
     print("[+] help")
+
+
+def test_hello(cmd: list[str]) -> None:
+    """Test hello command works."""
+    result = run([*cmd, "hello"])
+    out = result.stdout.strip()
+    assert "Hello, World!" in out, "hello output unexpected"
+    print("[+] hello")
+
+
+def test_goodbye(cmd: list[str]) -> None:
+    """Test goodbye command works."""
+    result = run([*cmd, "goodbye"])
+    out = result.stdout.strip()
+    assert "Goodbye, World!" in out, "goodbye output unexpected"
+    print("[+] goodbye")
 
 
 def test_module_invocation() -> None:
@@ -85,22 +101,21 @@ def test_imports() -> None:
 
     # Test main package imports
     pkg = importlib.import_module(package)
-    assert hasattr(pkg, "BIP39")
-    assert hasattr(pkg, "SLIP39")
+    assert hasattr(pkg, "Greeter")
     assert hasattr(pkg, "__version__")
     assert pkg.__version__, "version is empty"
 
     # Test submodule imports
     tools_module = importlib.import_module(f"{package}.tools")
-    assert hasattr(tools_module, "BIP39")
+    assert hasattr(tools_module, "Greeter")
 
     cli_module = importlib.import_module(f"{package}.cli")
     assert hasattr(cli_module, "app")
-    assert hasattr(cli_module, "deconstruct")
-    assert hasattr(cli_module, "reconstruct")
+    assert hasattr(cli_module, "hello")
+    assert hasattr(cli_module, "goodbye")
     assert hasattr(cli_module, "version")
 
-    print(f"[+] imports: BIP39, SLIP39, __version__={pkg.__version__}")
+    print(f"[+] imports: Greeter, __version__={pkg.__version__}")
 
 
 def main() -> None:
@@ -118,6 +133,8 @@ def main() -> None:
         # CLI tests with provided command
         test_version(cmd)
         test_help(cmd)
+        test_hello(cmd)
+        test_goodbye(cmd)
         print("All smoke tests passed!")
     except (subprocess.CalledProcessError, AssertionError) as e:
         print("\nSmoke test failed!", file=sys.stderr)
