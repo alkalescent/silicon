@@ -366,11 +366,9 @@ jobs:
         brew install ${{ github.repository_owner }}/tap/${{ github.event.repository.name }}
     
     - name: Run formula test
-      run: brew test ${{ github.repository_owner }}/tap/${{ github.event.repository.name }}
+      run: brew test ${{ github.event.repository.name }}
     
     - name: Verify CLI works
       run: |
-        # Use explicit path to avoid conflict with Rust silicon tool
-        BREW_PREFIX=$(brew --prefix)
-        "${BREW_PREFIX}/opt/${{ github.event.repository.name }}/bin/${{ github.event.repository.name }}" version
-        "${BREW_PREFIX}/opt/${{ github.event.repository.name }}/bin/${{ github.event.repository.name }}" --help
+        ${{ github.event.repository.name }} version
+        ${{ github.event.repository.name }} --help
