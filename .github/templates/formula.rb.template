@@ -22,6 +22,8 @@ class {{CLASS_NAME}} < Formula
     
     # Install the package and all dependencies
     system libexec/"bin/pip", "install", "--upgrade", "pip"
+    # Set version for setuptools-scm since archive tarballs lack .git metadata
+    ENV["SETUPTOOLS_SCM_PRETEND_VERSION"] = version.to_s
     system libexec/"bin/pip", "install", buildpath.to_s
     
     # Create wrapper scripts in bin that use the venv
