@@ -202,4 +202,4 @@ The CLI consists of the following modules:
 
 ## 📄 License
 
-MIT License - see [LICENSE](LICENSE) for details.
+MIT License — see [LICENSE](LICENSE) for details.
