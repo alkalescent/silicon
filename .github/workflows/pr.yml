@@ -106,7 +106,7 @@ jobs:
     
     - name: Build distributions
       env:
-        SETUPTOOLS_SCM_PRETEND_VERSION_FOR_SILICON: ${{ steps.set-version.outputs.pypi_version }}
+        SETUPTOOLS_SCM_PRETEND_VERSION: ${{ steps.set-version.outputs.pypi_version }}
       run: |
         uv build --sdist
         uv build --wheel
