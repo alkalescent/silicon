@@ -25,7 +25,6 @@ def main(
     ] = False,
 ) -> None:
     """A Python CLI hello world template."""
-    pass
 
 
 @app.command(help="Say hello to someone.")
@@ -35,7 +34,6 @@ def hello(
     """Say hello to someone."""
     greeter = Greeter(name)
     typer.echo(greeter.greet())
-    raise typer.Exit(code=0)
 
 
 @app.command(help="Say goodbye to someone.")
@@ -47,7 +45,6 @@ def goodbye(
     """Say goodbye to someone."""
     greeter = Greeter(name)
     typer.echo(greeter.farewell())
-    raise typer.Exit(code=0)
 
 
 @app.command(help=version_help)
