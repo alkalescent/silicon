@@ -189,12 +189,17 @@ The CLI consists of the following modules:
 
 1. Fork or clone this repository
 2. Replace `silicon` with your project name in:
-   - `pyproject.toml` (name, scripts, URLs)
+   - `pyproject.toml` (name, scripts, URLs, `version-file`, and the wheel's `packages`)
    - `src/silicon/` directory name
    - Imports in source files
    - README.md
-3. Add your own functionality in `tools.py` and `cli.py`
-4. Update tests accordingly
+3. Replace the addresses in the Support table with your own, or delete the table and `assets/qr_*.png` (the QR Codes job regenerates the images from the table on every pull request)
+4. Add your own functionality in `tools.py` and `cli.py`
+5. Update tests accordingly
+6. To publish releases, set up:
+   - A trusted publisher on PyPI for `release.yml` with the `pypi` environment, and one on TestPyPI for `pr.yml` with the `testpypi` environment
+   - A `homebrew-tap` repository under the same owner
+   - A `HOMEBREW_TAP_TOKEN` secret holding a token that can push to that repository
 
 ## 📚 Dependencies
 
