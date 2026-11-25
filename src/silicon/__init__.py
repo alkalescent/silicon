@@ -1,18 +1,11 @@
 """Package initialization with dynamic version and public API exports."""
 
-from importlib.metadata import PackageNotFoundError
-from importlib.metadata import version as get_version
-from pathlib import Path
-
-# Get package name dynamically from directory structure
-PACKAGE_NAME = Path(__file__).parent.name
+from silicon.tools import Greeter
 
 try:
-    __version__ = get_version(PACKAGE_NAME)
-except PackageNotFoundError:
+    # Written by the hatch-vcs build hook, so Nuitka binaries compile it in
+    from silicon._version import __version__
+except ImportError:  # Source tree that was never built or installed
     __version__ = "0.0.0"
 
-# Re-export public API
-from silicon.tools import Greeter  # noqa: E402
-
-__all__ = ["Greeter", "__version__", "PACKAGE_NAME"]
+__all__ = ["Greeter", "__version__"]

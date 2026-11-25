@@ -12,7 +12,7 @@ fi
 
 MODE="${MODE:-standalone}"
 
-uv run python -m nuitka \
+uv run --locked python -m nuitka \
   --mode="${MODE}" \
   --output-filename="${NAME}" \
   --remove-output \

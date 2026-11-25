@@ -1,15 +1,11 @@
 """Command-line interface for silicon hello world template."""
 
-from importlib.metadata import PackageNotFoundError
-from importlib.metadata import version as get_version
-from pathlib import Path
 from typing import Annotated
 
 import typer
 
+from silicon import __version__
 from silicon.tools import Greeter
-
-PACKAGE_NAME = Path(__file__).parent.name
 
 app = typer.Typer(context_settings={"help_option_names": ["-h", "--help"]})
 version_help = "Show the installed version."
@@ -29,7 +25,6 @@ def main(
     ] = False,
 ) -> None:
     """A Python CLI hello world template."""
-    pass
 
 
 @app.command(help="Say hello to someone.")
@@ -39,7 +34,6 @@ def hello(
     """Say hello to someone."""
     greeter = Greeter(name)
     typer.echo(greeter.greet())
-    raise typer.Exit(code=0)
 
 
 @app.command(help="Say goodbye to someone.")
@@ -51,17 +45,12 @@ def goodbye(
     """Say goodbye to someone."""
     greeter = Greeter(name)
     typer.echo(greeter.farewell())
-    raise typer.Exit(code=0)
 
 
 @app.command(help=version_help)
 def version() -> None:
     """Display the installed package version."""
-    prefix = "v"
-    try:
-        typer.echo(f"{prefix}{get_version(PACKAGE_NAME)}")
-    except PackageNotFoundError:
-        typer.echo(f"{prefix}0.0.0")
+    typer.echo(f"v{__version__}")
     # Exit is needed for the --version flag callback to terminate execution.
     raise typer.Exit(code=0)
 

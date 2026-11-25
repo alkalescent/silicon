@@ -72,15 +72,30 @@ class TestVersionCommand:
         assert result.exit_code == 0
         assert result.stdout.strip().startswith("v")
 
-    def test_version_fallback_when_not_installed(self) -> None:
-        """Test version falls back to 0.0.0 when package not found."""
-        from importlib.metadata import PackageNotFoundError
+    def test_version_matches_package(self) -> None:
+        """Test version prints the package version from the version file."""
+        from silicon import __version__
+        from silicon._version import __version__ as built_version
+
+        result = runner.invoke(app, ["version"])
+        assert result.exit_code == 0
+        assert result.stdout.strip() == f"v{__version__}"
+        assert __version__ == built_version
+
+    def test_version_fallback_without_version_file(self) -> None:
+        """Test version falls back to 0.0.0 when the version file is missing."""
+        import importlib
+        import sys
         from unittest.mock import patch
 
-        with patch("silicon.cli.get_version", side_effect=PackageNotFoundError):
-            result = runner.invoke(app, ["version"])
-            assert result.exit_code == 0
-            assert "v0.0.0" in result.stdout
+        import silicon
+
+        try:
+            with patch.dict(sys.modules, {"silicon._version": None}):
+                importlib.reload(silicon)
+                assert silicon.__version__ == "0.0.0"
+        finally:
+            importlib.reload(silicon)
 
 
 class TestHelpCommand:
